@@ -1,6 +1,6 @@
 package rikkei.academy.security.userprincipal;
 
-import com.sun.security.auth.UserPrincipal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,8 +35,8 @@ public class UserDetailServiceIMPL implements UserDetailsService {
     public User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserPrincipal) {
-            return userRepository.findByUsername(((UserPrincipal) principal).getName()).orElse(null);
+        if (principal instanceof UserPrinciple) {
+            return userRepository.findByUsername(((UserPrinciple) principal).getUsername()).orElse(null);
         } else {
             return userRepository.findByUsername(String.valueOf(principal)).orElse(null);
         }
