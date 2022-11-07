@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import rikkei.academy.dto.response.ResponseMessage;
 import rikkei.academy.model.Category;
@@ -22,6 +23,9 @@ public class CategoryController {
     ICategoryService categoryService;
 @Autowired
     UserDetailServiceIMPL userDetailService;
+
+@Autowired
+IUSerService userService;
     @GetMapping
     public ResponseEntity<?> getList(Pageable pageable){
         return ResponseEntity.ok(categoryService.findAll(pageable));
@@ -29,9 +33,12 @@ public class CategoryController {
     @PostMapping
     public ResponseEntity<?> createCategory(@RequestBody Category category){
         User currentUser = userDetailService.getCurrentUser();
+//        User currentUser = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+
         category.setUser(currentUser);
         categoryService.save(category);
-        return new ResponseEntity<>(new ResponseMessage("created"),CREATED);
+        return new ResponseEntity<>(new ResponseMessage("Created"),CREATED);
     }
     @GetMapping("{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Category category){
