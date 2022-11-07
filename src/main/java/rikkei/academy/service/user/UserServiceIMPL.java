@@ -1,6 +1,8 @@
 package rikkei.academy.service.user;
 
+import com.sun.security.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import rikkei.academy.model.User;
 import rikkei.academy.repository.IUserRepository;
@@ -27,7 +29,8 @@ public class UserServiceIMPL implements IUSerService{
     }
 
     @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElse(null);
     }
+
 }
