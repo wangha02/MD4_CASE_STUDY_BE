@@ -24,4 +24,5 @@ public class Comic {
     private String comic;
     @ManyToOne
     private User user;
+
 }
