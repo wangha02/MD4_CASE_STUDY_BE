@@ -7,26 +7,21 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "categories")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+@Entity
+@Table(name = "comics")
+public class Comic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String name;
     @ManyToOne
+    private Category category;
+    @Lob
+    private String comic;
+    @ManyToOne
     private User user;
-
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", user=" + user +
-                '}';
-    }
 }
