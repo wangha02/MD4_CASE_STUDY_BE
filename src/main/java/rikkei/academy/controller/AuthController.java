@@ -49,7 +49,7 @@ public class AuthController {
         }
 //        Set<String> strRoles = signUpForm.getRoles();
         Set<Role>roles = new HashSet<>();
-        Role roleSignUp = roleService.findByName(RoleName.USER).orElseThrow(()-> new RuntimeException("not_found"));
+        Role roleSignUp = roleService.findByName(RoleName.ADMIN).orElseThrow(()-> new RuntimeException("not_found"));
         roles.add(roleSignUp);
 
 //        strRoles.forEach(role->{

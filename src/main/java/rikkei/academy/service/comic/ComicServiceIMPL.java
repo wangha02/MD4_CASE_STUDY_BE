@@ -10,10 +10,12 @@ import rikkei.academy.repository.IComicRepository;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class ComicServiceIMPL implements IComicService {
-@Autowired
+    @Autowired
     IComicRepository comicRepository;
+
     @Override
     public List<Comic> findAll() {
         return comicRepository.findAll();
@@ -31,27 +33,16 @@ public class ComicServiceIMPL implements IComicService {
 
     @Override
     public void deleteById(Long id) {
-comicRepository.deleteById(id);
+        comicRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Comic> findById(Long id) {
-        return comicRepository.findById(id);
-    }
-
-
-    @Override
-    public Iterable<Comic> findByCategory(Category category) {
-        return comicRepository.findByCategory(category);
+    public Comic findById(Long id) {
+        return comicRepository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Comic> findByNameContaining(String name) {
-        return  comicRepository.findByNameContaining(name);
-    }
-
-    @Override
-    public Page<Comic> findByNameContaining(String name, Pageable pageable) {
-       return comicRepository.findByNameContaining(name, pageable);
+    public Boolean existsByName(String name) {
+        return comicRepository.existsByName(name);
     }
 }
