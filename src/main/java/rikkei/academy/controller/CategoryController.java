@@ -21,45 +21,50 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CategoryController {
     @Autowired
     ICategoryService categoryService;
-@Autowired
+    @Autowired
     UserDetailServiceIMPL userDetailService;
 
-@Autowired
-IUSerService userService;
+    @Autowired
+    IUSerService userService;
+
     @GetMapping
-    public ResponseEntity<?> getList(Pageable pageable){
+    public ResponseEntity<?> getList(Pageable pageable) {
         return ResponseEntity.ok(categoryService.findAll(pageable));
     }
+
     @PostMapping
-    public ResponseEntity<?> createCategory(@RequestBody Category category){
+    public ResponseEntity<?> createCategory(@RequestBody Category category) {
         User currentUser = userDetailService.getCurrentUser();
 //        User currentUser = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
 
         category.setUser(currentUser);
         categoryService.save(category);
-        return new ResponseEntity<>(new ResponseMessage("Created"),CREATED);
+        return new ResponseEntity<>(new ResponseMessage("Created"), CREATED);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") Category category){
-        return category == null ? new ResponseEntity<>(NOT_FOUND): ResponseEntity.ok(category);
+    public ResponseEntity<?> findById(@PathVariable("id") Category category) {
+        return category == null ? new ResponseEntity<>(NOT_FOUND) : ResponseEntity.ok(category);
     }
+
     @PutMapping("{id}")
     public ResponseEntity<?> updateCategory(
-            @PathVariable("id")Category oldCategory,
+            @PathVariable("id") Category oldCategory,
             @RequestBody Category newCategory
-    ){
-        if (oldCategory==null){
+    ) {
+        if (oldCategory == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }
         oldCategory.setName(newCategory.getName());
         categoryService.save(oldCategory);
         return ResponseEntity.ok(oldCategory);
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteCategory(
             @PathVariable("id") Category category
-    ){
+    ) {
         if (category == null) {
             return new ResponseEntity<>(NOT_FOUND);
         }
