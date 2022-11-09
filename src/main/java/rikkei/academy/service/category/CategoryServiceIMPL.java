@@ -43,6 +43,6 @@ public class CategoryServiceIMPL implements ICategoryService {
 
     @Override
     public Boolean existsByName(String name) {
-        return null;
+      return categoryRepository.existsByName(name);
     }
 }

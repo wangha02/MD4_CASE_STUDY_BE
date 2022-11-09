@@ -47,12 +47,9 @@ public class CategoryController {
         return category == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(category);
     }
 
-    @PutMapping("{id} ")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category category) {
         Category category1 = categoryService.findById(id);
-        if (category1 == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         category1.setName(category.getName());
         categoryService.save(category1);
         return new ResponseEntity<>(new ResponseMessage("Update success!!!"), HttpStatus.OK);
