@@ -16,7 +16,6 @@ import java.util.Optional;
 public class CategoryServiceIMPL implements ICategoryService {
     @Autowired
     private ICategoryRepository categoryRepository;
-
     @Override
     public List<Category> findAll() {
         return categoryRepository.findAll();
@@ -34,17 +33,16 @@ public class CategoryServiceIMPL implements ICategoryService {
 
     @Override
     public void deleteById(Long id) {
-        categoryRepository.deleteById(id);
+      categoryRepository.deleteById(id);
     }
 
     @Override
-    public Optional<Category> findById(Long id) {
-        return categoryRepository.findById(id);
+    public Category findById(Long id) {
+        return categoryRepository.findById(id).orElse(null);
     }
 
-
     @Override
-    public List<Category> findByNameContaining(String name) {
-        return categoryRepository.findByNameContaining(name);
+    public Boolean existsByName(String name) {
+        return null;
     }
 }

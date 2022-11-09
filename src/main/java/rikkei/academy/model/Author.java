@@ -19,8 +19,5 @@ public class Author {
     private Long id;
     @NotBlank
     private String name;
-    @ManyToOne
-    private Comic comic;
-    @ManyToOne
-    private User user;
+
 }

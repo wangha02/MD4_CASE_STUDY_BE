@@ -13,57 +13,60 @@ import rikkei.academy.security.userprincipal.UserDetailServiceIMPL;
 import rikkei.academy.service.category.ICategoryService;
 import rikkei.academy.service.user.IUSerService;
 
+import javax.validation.Valid;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/categories")
 public class CategoryController {
     @Autowired
     ICategoryService categoryService;
-@Autowired
-    UserDetailServiceIMPL userDetailService;
+    @Autowired
+    UserDetailServiceIMPL userDetailServiceIMPL;
 
-@Autowired
-IUSerService userService;
+    @Autowired
+    IUSerService userService;
+
     @GetMapping
-    public ResponseEntity<?> getList(Pageable pageable){
-        return ResponseEntity.ok(categoryService.findAll(pageable));
+    public ResponseEntity<?> getList() {
+        Iterable<Category> listCategories = categoryService.findAll();
+        return new ResponseEntity<>(listCategories, HttpStatus.OK);
     }
+
     @PostMapping
-    public ResponseEntity<?> createCategory(@RequestBody Category category){
-        User currentUser = userDetailService.getCurrentUser();
-//        User currentUser = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-
-        category.setUser(currentUser);
+    public ResponseEntity<?> createCategory( @RequestBody Category category) {
         categoryService.save(category);
-        return new ResponseEntity<>(new ResponseMessage("Created"),CREATED);
+        return new ResponseEntity<>(new ResponseMessage("create success"), HttpStatus.OK);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<?> findById(@PathVariable("id") Category category){
-        return category == null ? new ResponseEntity<>(NOT_FOUND): ResponseEntity.ok(category);
+    public ResponseEntity<?> detailCategory(@PathVariable("id") Category category) {
+        return category == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(category);
     }
-    @PutMapping("{id}")
-    public ResponseEntity<?> updateCategory(
-            @PathVariable("id")Category oldCategory,
-            @RequestBody Category newCategory
-    ){
-        if (oldCategory==null){
-            return new ResponseEntity<>(NOT_FOUND);
+
+    @PutMapping("{id} ")
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        Category category1 = categoryService.findById(id);
+        if (category1 == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        oldCategory.setName(newCategory.getName());
-        categoryService.save(oldCategory);
-        return ResponseEntity.ok(oldCategory);
+        category1.setName(category.getName());
+        categoryService.save(category1);
+        return new ResponseEntity<>(new ResponseMessage("Update success!!!"), HttpStatus.OK);
     }
+
+
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteCategory(
-            @PathVariable("id") Category category
-    ){
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        Category category = categoryService.findById(id);
+
         if (category == null) {
-            return new ResponseEntity<>(NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        categoryService.deleteById(category.getId());
-        return ResponseEntity.ok(new ResponseMessage("delete"));
+        categoryService.deleteById(id);
+        return new ResponseEntity<>(new ResponseMessage("Delete Success!"), HttpStatus.OK);
     }
 }

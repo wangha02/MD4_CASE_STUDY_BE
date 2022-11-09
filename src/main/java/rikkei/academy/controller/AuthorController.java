@@ -33,8 +33,6 @@ public class AuthorController {
     }
     @PostMapping
     public ResponseEntity<?>createAuthor(@RequestBody Author author){
-        User currentUser = userDetailServiceIMPL.getCurrentUser();
-        author.setUser(currentUser);
         authorService.save(author);
         return new ResponseEntity<>(new ResponseMessage("Created"), CREATED);
 
