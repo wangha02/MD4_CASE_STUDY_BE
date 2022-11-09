@@ -18,15 +18,7 @@ public class Category {
     private Long id;
     @NotBlank
     private String name;
-    @ManyToOne
-    private User user;
 
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", user=" + user +
-                '}';
-    }
+
+
 }

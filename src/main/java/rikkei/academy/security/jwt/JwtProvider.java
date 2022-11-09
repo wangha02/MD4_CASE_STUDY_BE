@@ -14,7 +14,7 @@ import java.util.Date;
 public class JwtProvider {
     //LỚP Logger giúp ta ghi log bắt các trường hợp ngoại lệ
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-    private String jwtSecret="jwt.chinh.duong";
+    private String jwtSecret="jwt.rikkei.academy";
 
 
 

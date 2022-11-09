@@ -32,11 +32,7 @@ IUSerService userService;
     }
     @PostMapping
     public ResponseEntity<?> createCategory(@RequestBody Category category){
-        User currentUser = userDetailService.getCurrentUser();
 //        User currentUser = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-
-
-        category.setUser(currentUser);
         categoryService.save(category);
         return new ResponseEntity<>(new ResponseMessage("Created"),CREATED);
     }
