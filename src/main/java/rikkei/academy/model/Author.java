@@ -21,4 +21,6 @@ public class Author {
     private String name;
     @ManyToOne
     private Comic comic;
+    @ManyToOne
+    private User user;
 }
