@@ -8,10 +8,9 @@ import rikkei.academy.dto.response.ResponseMessage;
 import rikkei.academy.model.Comic;
 import rikkei.academy.model.User;
 import rikkei.academy.security.userprincipal.UserDetailServiceIMPL;
-import rikkei.academy.service.category.ICategoryService;
 import rikkei.academy.service.comic.IComicService;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/comic")
@@ -20,19 +19,16 @@ public class ComicController {
     @Autowired
     private IComicService comicService;
     @Autowired
-    private ICategoryService categoryService;
-    @Autowired
-    UserDetailServiceIMPL userDetailServiceIMPL;
-    @Autowired
+    private UserDetailServiceIMPL userDetailServiceIMPL;
 
     @GetMapping
-    public ResponseEntity<?> findAllComic() {
-        Iterable<Comic> listFilm = comicService.findAll();
-        return new ResponseEntity<>(listFilm, HttpStatus.OK);
+    public ResponseEntity<?> showListComic(){
+        Iterable<Comic> listComic = comicService.findAll();
+        return new ResponseEntity<>(listComic, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createComic(@RequestBody Comic comic) {
+    public ResponseEntity<?> createComic(@Valid @RequestBody Comic comic){
         User currentUser = userDetailServiceIMPL.getCurrentUser();
         if (comicService.existsByName(comic.getName())){
             return new ResponseEntity<>(new ResponseMessage("comic_invalid"),HttpStatus.OK);
@@ -40,7 +36,6 @@ public class ComicController {
         comic.setUser(currentUser);
         comicService.save(comic);
         return new ResponseEntity<>(new ResponseMessage("create success"),HttpStatus.OK);
-
     }
 
     @PutMapping("/{id}")
@@ -49,19 +44,8 @@ public class ComicController {
         if (comic1 == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        comic1.setName(comic1.getName());
+        comic1.setName(comic.getName());
         comicService.save(comic1);
-        return new ResponseEntity<>(new ResponseMessage(" edit success"),HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> detailComic(@PathVariable Long id) {
-        Comic comic = comicService.findById(id);
-        if (comic == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        comic.setName(comic.getName());
-        comicService.save(comic);
         return new ResponseEntity<>(new ResponseMessage(" edit success"),HttpStatus.OK);
     }
 
@@ -73,6 +57,11 @@ public class ComicController {
         }
         comicService.deleteById(id);
         return new ResponseEntity<>(new ResponseMessage("delete success"),HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getComicById(@PathVariable Long id){
+        return new ResponseEntity<>(comicService.findById(id),HttpStatus.OK);
     }
 
 //    @GetMapping("/searchByName/{name}")
