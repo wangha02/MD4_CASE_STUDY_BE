@@ -6,29 +6,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util.Set;
 
 
-@Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "comics")
-public class Comic {
+@Table(name = "author")
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
     private String name;
-    @NotBlank
-    @Lob
-    private String comic;
-    @OneToMany
-    Set<Category> categories = new HashSet<>();
-    @ManyToOne
-    private Author author;
-    @ManyToOne
-    private User user;
 
 }
