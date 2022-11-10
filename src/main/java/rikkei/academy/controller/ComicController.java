@@ -41,10 +41,11 @@ public class ComicController {
     @PutMapping("/{id}")
     public ResponseEntity<?> editSong(@PathVariable Long id, @RequestBody Comic comic) {
         Comic comic1 = comicService.findById(id);
-        if (comic1 == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+//        if (comic1 == null){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
         comic1.setName(comic.getName());
+        comic1.setComic(comic.getComic());
         comicService.save(comic1);
         return new ResponseEntity<>(new ResponseMessage(" edit success"),HttpStatus.OK);
     }
