@@ -6,7 +6,5 @@ import rikkei.academy.model.Category;
 import java.util.List;
 
 public interface ICategoryRepository extends JpaRepository<Category, Long> {
-
-    List<Category> findByNameContaining(String name);
-
+    Boolean existsByName(String name);
 }

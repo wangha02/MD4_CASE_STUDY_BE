@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Data
 @NoArgsConstructor
@@ -18,10 +21,11 @@ public class Comic {
     private Long id;
     @NotBlank
     private String name;
-    @ManyToOne
-    private Category category;
+    @NotBlank
     @Lob
     private String comic;
+    @OneToMany
+    Set<Category> categories = new HashSet<>();
     @ManyToOne
     private User user;
 }
