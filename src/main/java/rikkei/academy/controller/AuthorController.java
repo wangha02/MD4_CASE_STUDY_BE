@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rikkei.academy.dto.response.ResponseMessage;
 import rikkei.academy.model.Author;
+import rikkei.academy.model.Category;
 import rikkei.academy.model.User;
 import rikkei.academy.security.userprincipal.UserDetailServiceIMPL;
 import rikkei.academy.service.author.IAuthorService;
@@ -34,22 +35,20 @@ public class AuthorController {
     @PostMapping
     public ResponseEntity<?>createAuthor(@RequestBody Author author){
         authorService.save(author);
-        return new ResponseEntity<>(new ResponseMessage("Created"), CREATED);
+        return new ResponseEntity<>(new ResponseMessage("Created"), HttpStatus.OK);
 
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> detailAuthor(@PathVariable("id") Author author) {
+        return author == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : ResponseEntity.ok(author);
+    }
     @PutMapping("/{id}")
-    public ResponseEntity<?> editAuthor(
-            @PathVariable("id") Author oldAuthor,
-            @RequestBody Author newAuthor
-    ){
-        if (oldAuthor == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> editAuthor(@PathVariable("id") Author oldAuthor, @RequestBody Author newAuthor){
         oldAuthor.setName(newAuthor.getName());
         authorService.save(oldAuthor);
         return ResponseEntity.ok(oldAuthor);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?>deleteAuthor(@PathVariable("id") Author author){
         if (author == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
