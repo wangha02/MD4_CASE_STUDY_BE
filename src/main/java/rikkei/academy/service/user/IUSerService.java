@@ -8,6 +8,6 @@ public interface IUSerService {
     Boolean existsByUsername(String user);
     Boolean existsByEmail(String email);
     void save(User user);
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 //    User getCurrentUser();
 }

@@ -29,8 +29,8 @@ public class UserServiceIMPL implements IUSerService{
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username).orElse(null);
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }
